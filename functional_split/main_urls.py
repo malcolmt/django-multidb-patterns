@@ -18,6 +18,6 @@ if settings.DEV_MODE:
     static_path = os.path.join(settings.PROJ_ROOT, "..", "media")
     urlpatterns += patterns("",
         ("^static/(.*)$", serve, {"document_root": static_path}),
-#        ('^(favicon.ico)$', serve, {"document_root": static_path}),
+        ('^(favicon.ico)$', serve, {"document_root": static_path}),
     )
 
