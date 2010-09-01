@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}Review not found{% endblock %}
+{% block header %}<h1>Review not found</h1>{% endblock %}
+{% block content %}
+<p>There is no review at this URL.</p>
+
+<div class="nav_links">
+    <p>Show all <a href="{% url product-reviews %}">product reviews</a>.</p>
+</div>
+{% endblock %}
+

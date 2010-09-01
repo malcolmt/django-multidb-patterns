@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>{{ product.name }}</h1>
+<table>
+    <tr><th>Reviewer:</th><td>{{ reviewer }}</td></tr>
+    <tr><th>Date:</th><td>{{ review.created|date:"D, jS N Y, P" }}</td></tr>
+    {% if review.rating %}
+    <tr><th>Rating:</th><td> {{ review.rating }} / 5</td></tr>
+    {% endif %}
+    <tr><th></th><td>{{ review.text }}</td></tr>
+</table>
+
+<div class="links">
+    <p>Back to <a href="{% url product-reviews %}">all product reviews</a>.</p>
+</div>
+{% endblock %}
+

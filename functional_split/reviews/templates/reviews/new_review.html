@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form method="post" action="">
+    <table>{% csrf_token %}
+        {{ form }}
+        <tr><td></td><td><input type="submit" /></td></tr>
+    </table>
+</form>
+
+<div class="links">
+    <p>Back to <a href="{% url product-reviews %}">all product reviews</a>.</p>
+</div>
+{% endblock %}
+
