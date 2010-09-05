@@ -13,9 +13,6 @@ class ReviewRouter(object):
             return "reviews"
         return None
 
-#    FIXME
-#    def allow_relation(obj1, obj2, **hints):
-
     def allow_syncdb(self, db, model):
         this_app = (model._meta.app_label == "reviews")
         reviews_db = (db == "reviews")

@@ -21,7 +21,7 @@ DATABASES = {
 
 DATABASE_ROUTERS = ["reviews.router.ReviewRouter"]
 
-TIME_ZONE = 'Australia/Sydney'
+TIME_ZONE = None
 LANGUAGE_CODE = 'en-us'
 SITE_ID = 1
 USE_I18N = True
@@ -53,9 +53,11 @@ MIDDLEWARE_CLASSES = (
 )
 
 ROOT_URLCONF = 'main_urls'
-
 TEMPLATE_DIRS = (
     os.path.join(PROJ_ROOT, "..", "templates"),
+)
+FIXTURE_DIRS = (
+    os.path.join(PROJ_ROOT, "..", "fixtures"),
 )
 
 INSTALLED_APPS = (

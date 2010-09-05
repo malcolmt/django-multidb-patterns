@@ -17,7 +17,7 @@ body {
 #content {
 	background: #d7e2e5;
 	color: #38322a;
-	padding-top: 1em;
+	padding: 1em;
 }
 
 a {
@@ -37,3 +37,6 @@ a:hover {
 	font-weight: bold;
 }
 
+ul li {
+    list-style: none;
+}

@@ -1,6 +1,7 @@
 - Update README.rst to show recommended order
 - Add slides for talk
-- Better styling of pages
-	- layout on Chrome is a bit funky ("ol" ordinals are on the far left)
-- Add functional_split/README.rst
+- README.rst files:
+	- function_split
+	- access_split
+
 

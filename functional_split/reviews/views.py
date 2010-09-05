@@ -42,8 +42,9 @@ def add_review(request, product_id=None):
         form = ReviewForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
+            user = request.user
             review = reviews.models.Review.objects.create(
-                    author_id = request.user.id,
+                    author_id = user.is_authenticated() and user.id or -1,
                     product_id = data["product"],
                     rating = data["rating"],
                     text = data["review"]
@@ -77,7 +78,10 @@ def show_review(request, review_id=None):
         return http.HttpResponseNotFound(loader.render_to_string(
                 "reviews/missing.html",
                 context_instance=RequestContext(request)))
-    user = auth_models.User.objects.get(id=review.author_id)
+    if review.author_id == -1:
+        user = auth_models.AnonymousUser()
+    else:
+        user = auth_models.User.objects.get(id=review.author_id)
     product = products.models.Product.objects.get(id=review.product_id)
     data = {
             "title": "Reviews",
@@ -95,6 +99,7 @@ def product_reviews(request, product_id=None):
     review_ids = [obj.id for obj in review_qs]
     users = dict(auth_models.User.objects.filter(id__in=review_ids). \
             values_list("id", "username"))
+    users[-1] = "Anonymous"
     for review in review_qs:
         review.reviewer = users[review.author_id]
         review_dict.setdefault(review.product_id, []).append(review)
