@@ -6,10 +6,6 @@
 	- sharding
 
 - sharding
-	- product list needs to iterate through all review databases
-	- review view needs to select review from right database
-		- need id -> database function again
 	- admin pulls results from all databases?
 		- use an iterator to avoid pulling everything?
-		- display database num in admin view
 

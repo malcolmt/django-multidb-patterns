@@ -1,3 +1,5 @@
+from django.conf import settings
+
 class ReviewRouter(object):
     """
     Sends all review-related operations to a database with the alias of
@@ -25,4 +27,11 @@ class ReviewRouter(object):
         if reviews_db:
             return False
         return None
+
+def alias_iter():
+    """
+    Returns an iterator over the review-* aliases.
+    """
+    for db_num in range(settings.CLUSTER_SIZE):
+        yield "reviews-%s" % (db_num + 1)
 

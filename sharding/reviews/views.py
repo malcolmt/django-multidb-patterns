@@ -7,6 +7,7 @@ from django.template import RequestContext, loader
 
 import products.models
 import reviews.models
+from reviews import router
 
 
 class ReviewForm(forms.Form):
@@ -32,6 +33,12 @@ class ReviewForm(forms.Form):
                     values_list("id", "name"))
             cache.set(self._cache_key, prod_choices)
         self.fields["product"].choices = prod_choices
+
+    def clean_rating(self):
+        value = self.cleaned_data["rating"]
+        if value == u"":
+            return None
+        return value
 
 
 def add_review(request, product_id=None):
@@ -72,8 +79,9 @@ def show_review(request, review_id=None):
     """
     if review_id is None:
         return redirect("product-reviews")
+    alias = "reviews-%d" % reviews.models.get_db_for_id(review_id)
     try:
-        review = reviews.models.Review.objects.get(id=review_id)
+        review = reviews.models.Review.objects.using(alias).get(id=review_id)
     except reviews.models.Review.DoesNotExist:
         return http.HttpResponseNotFound(loader.render_to_string(
                 "reviews/missing.html",
@@ -96,13 +104,15 @@ def product_reviews(request, product_id=None):
     product_list = products.models.Product.objects.order_by("name")
     review_qs = reviews.models.Review.objects.order_by("-created")
     review_dict = {}
-    review_ids = [obj.id for obj in review_qs]
-    users = dict(auth_models.User.objects.filter(id__in=review_ids). \
-            values_list("id", "username"))
-    users[-1] = "Anonymous"
-    for review in review_qs:
-        review.reviewer = users[review.author_id]
-        review_dict.setdefault(review.product_id, []).append(review)
+    users = {-1: "Anonymous"}
+    for db_alias in router.alias_iter():
+        current_qs = review_qs.using(db_alias)
+        review_ids = [obj.author_id for obj in current_qs]
+        users.update(dict(auth_models.User.objects.filter(id__in=review_ids).
+                values_list("id", "username")))
+        for review in current_qs:
+            review.reviewer = users[review.author_id]
+            review_dict.setdefault(review.product_id, []).append(review)
     for product in product_list:
         product.reviews = review_dict.get(product.id, [])
     data = {

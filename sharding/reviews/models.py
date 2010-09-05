@@ -42,10 +42,10 @@ class Review(models.Model):
     text = models.TextField()
     created = models.DateTimeField(default=datetime.datetime.now)
 
-    objects = Manager()
-
     # Explicit primary key, as this is used to find the database for saving.
     id = models.IntegerField(default=Ticket.objects.new, primary_key=True)
+
+    objects = Manager()
 
     def __unicode__(self):
         return u"User %s reviews product %d (%s)" % (self.author_id,
@@ -55,6 +55,17 @@ class Review(models.Model):
         """
         Returns the database alias that stores the data for this instance.
         """
-        return 1 + (int(hashlib.md5(str(self.id)).hexdigest(), 16) %
-                settings.CLUSTER_SIZE)
+        return get_db_for_id(self.id)
+
+def get_db_for_id(id_value):
+    """
+    Work out the database number containing a Review record with pk of
+    "id_value".
+    """
+    # XXX: If we were interested in being able to add databases and do minimal
+    # data moving, it would be better to use a consistent hashing algorithm
+    # here (distribute the results across something like 100 * CLUSTER_SIZE and
+    # map back onto CLUSTER_SIZE machines).
+    return 1 + (int(hashlib.md5(str(id_value)).hexdigest(), 16) %
+            settings.CLUSTER_SIZE)
 
