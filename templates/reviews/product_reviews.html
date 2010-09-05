@@ -6,11 +6,11 @@
 <h2>{{ product.name}} — {{ num_reviews }} review{{ num_reviews|pluralize }}</h2>
 {% endwith %}
 
-<ol>{% for review in product.reviews %}
+<ul>{% for review in product.reviews %}
     <li><a href="{% url show-review review.id %}">By {{ review.reviewer }} at
         {{ review.created|date:"P, j N Y" }}</a></li>
     {% endfor %}
-</ol>
+</ul>
 <p class="highlight"><a href="{% url add-review product.id %}">Create new review</a></p>
 {% endfor %}
 {% endblock %}
