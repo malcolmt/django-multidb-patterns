@@ -33,6 +33,12 @@ class ReviewForm(forms.Form):
             cache.set(self._cache_key, prod_choices)
         self.fields["product"].choices = prod_choices
 
+    def clean_rating(self):
+        value = self.cleaned_data["rating"]
+        if value == u"":
+            return None
+        return value
+
 
 def add_review(request, product_id=None):
     """
@@ -96,8 +102,8 @@ def product_reviews(request, product_id=None):
     product_list = products.models.Product.objects.order_by("name")
     review_qs = reviews.models.Review.objects.order_by("-created")
     review_dict = {}
-    review_ids = [obj.id for obj in review_qs]
-    users = dict(auth_models.User.objects.filter(id__in=review_ids). \
+    author_ids = [obj.author_id for obj in review_qs]
+    users = dict(auth_models.User.objects.filter(id__in=author_ids). \
             values_list("id", "username"))
     users[-1] = "Anonymous"
     for review in review_qs:
