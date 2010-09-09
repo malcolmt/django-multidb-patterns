@@ -11,11 +11,11 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'db-main.sqlite',
+        'NAME': os.path.join(PROJ_ROOT, 'db-main.sqlite'),
         },
     "reviews": {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'db-reviews.sqlite',
+        'NAME': os.path.join(PROJ_ROOT, 'db-reviews.sqlite'),
         }
 }
 

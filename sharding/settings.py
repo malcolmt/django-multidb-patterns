@@ -16,14 +16,14 @@ CLUSTER_SIZE = 3
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'db-main.sqlite',
+        'NAME': os.path.join(PROJ_ROOT, 'db-main.sqlite'),
         },
 }
 for db_num in range(CLUSTER_SIZE):
     name = "reviews-%s" % (db_num + 1)
     DATABASES[name] = {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'db-%s.sqlite' % name,
+        'NAME': os.path.join(PROJ_ROOT, 'db-%s.sqlite' % name),
         }
 
 DATABASE_ROUTERS = ["reviews.router.ReviewRouter"]

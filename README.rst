@@ -8,8 +8,8 @@ September 2010 (in Portland, Oregon, USA).
 Short Description
 ==================
 
-A tour through four common "multiple database" usage patterns and how they can
-be implemented and utilised with Django. We'll talk about the strengths and
+A tour through a few common "multiple database" usage patterns and how they can
+be implemented and utilized with Django. We'll talk about the strengths and
 weaknesses of each pattern and why you might not need any of them.
 
 Abstract
@@ -17,31 +17,25 @@ Abstract
 
 There are a few good reasons a system might want to interact regularly with
 multiple databases. “Because it’s what cool people do” is not one of those
-reasons. Most multi-database usages fall into one of four main classes:
+reasons. Most multi-database usages often fall into one of three main classes:
 
     Separation by function.
         All data of one type in one database, all data of another type in some
         other database.
 
-    Separation by sharding.
-        Data of a particular type (e.g. user records) is split across multiple
-        databases, each database holding a shard of the whole data.
-
     Data replication (separation by access)
         Some pieces of data are synchronized to multiple machines. Writes might
         go into one or more masters and reads normally come from the slaves.
 
-    Data augmentation/shadowing
-        Data in one database is added to or entirely replaced by data from
-        another database. Can happen during development when reading from a
-        production snapshot whilst trying out changes to some tables or data
-        only against a local database.
+    Separation by sharding.
+        Data of a particular type (e.g. user records) is split across multiple
+        databases, each database holding a shard of the whole data.
 
 Obviously, combinations of these classes are possible, such as replicated
 sharded data in a huge site. There are tricks and traps to the way a developer
 talks to each of these sorts of setups. I'll spend a few minutes showing
 credible examples of the usage of each as well as when you might be
-over-engineering by going that way. All four access patterns are possible in
+over-engineering by going that way. All three access patterns are possible in
 Django 1.2, with varying degrees of ease of use and I'll show the type of code
 required in each case.
 
@@ -55,4 +49,16 @@ default, I am using the SQLite, but there is nothing database-specific about
 the code, so feel free to change the ``ENGINE`` setting for one or more
 databases and see what happens (there's no requirement in Django that each
 database uses the same backend).
+
+If you want to browse / test the code in order of increasing complexity, I
+would recommend the following order:
+
+ * functional_split
+ * access_split
+ * sharding
+
+Good Luck!
+
+Malcolm Tredinnick
+(Sydney, Australia)
 
