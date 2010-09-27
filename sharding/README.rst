@@ -4,14 +4,14 @@
 
 This is the third of three examples of multiple database use. In this example,
 the initial setup is extended to add three databases for reviews
-(*"reviews-1"*, *"reviews-2"*, *"reviews-3"*). Review records are stored in one
+(*reviews-1*, *reviews-2*, *reviews-3*). Review records are stored in one
 of these databases, based on a hash of their primary key value. In large-scale
 production environments, this would distribute the read and write load evenly
 across a large database cluster. It could also be further combined with
 database replication and read-only slave databases for separate read and write
 loads.
 
-All product information is still in the main (*"default"*) database, as before.
+All product information is still in the main (*default*) database, as before.
 
 Setup
 ======
@@ -25,7 +25,7 @@ times::
     python manage.py syncdb --database reviews-3
 
 An admin user will be created from an initial data fixture. Both the username
-and password for this user are *"admin"* (without the quotes).
+and password for this user are "*admin*" (without the quotes).
 
 Trying out the code
 ====================
@@ -42,11 +42,11 @@ behind the scenes.
 Reviews are immediately viewable to everybody after being created (in contrast
 to the second simulated example). However, they are distributed more or less
 evenly (in the long run) across the three databases. You can see this by using
-the SQLite command line client to examine the `reviews_review` table in each of
-the *reviews-X* databases.
+the SQLite command line client to examine the ``reviews_review`` table in each
+of the *reviews-X* databases.
 
 At the present time, the admin interface only displays review results from the
-*"reviews-1"* database.
+*reviews-1* database.
 
 Development exercise
 ---------------------

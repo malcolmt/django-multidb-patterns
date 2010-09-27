@@ -4,10 +4,10 @@
 
 This is the second of three examples of multiple database use. In this example,
 the initial setup is extended to add a second database for reviews that is used
-for read-only access. All writes go to the main (*"reviews"*) database, whilst
-reads come from the shadow (*"reviews-s"*) database.
+for read-only access. All writes go to the main (*reviews*) database, whilst
+reads come from the shadow (*reviews-s*) database.
 
-All product information is still in the main (*"default"*) database, as before.
+All product information is still in the main (*default*) database, as before.
 
 Setup
 ======
@@ -20,7 +20,7 @@ times::
     python manage.py syncdb --database reviews-s
 
 An admin user will be created from an initial data fixture. Both the username
-and password for this user are *"admin"* (without the quotes).
+and password for this user are *admin* (without the quotes).
 
 Trying out the code
 ====================

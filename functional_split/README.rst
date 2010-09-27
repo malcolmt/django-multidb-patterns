@@ -3,7 +3,7 @@
 =================================================
 
 In this example, the two main application models are in different databases.
-All products are in the main ("default") database, whilst product reviews are
+All products are in the main (*default*) database, whilst product reviews are
 in the "reviews" database.
 
 Setup
@@ -15,7 +15,7 @@ To create the example databases, you need to run the ``syncdb`` command twice::
     python manage.py syncdb --database reviews
 
 An admin user will be created from an initial data fixture. Both the username
-and password for this user are *"admin"* (without the quotes).
+and password for this user are "*admin*" (without the quotes).
 
 Trying out the code
 ====================
